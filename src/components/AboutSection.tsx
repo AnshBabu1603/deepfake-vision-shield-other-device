@@ -1,4 +1,3 @@
-
 import { Shield, CheckCircle, Lock, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -7,9 +6,10 @@ interface FeatureCardProps {
   title: string;
   description: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-function FeatureCard({ icon, title, description, className }: FeatureCardProps) {
+function FeatureCard({ icon, title, description, className, style }: FeatureCardProps) {
   return (
     <div className={cn(
       "bg-white/70 backdrop-blur-sm rounded-lg p-6 shadow-lg border border-white/20",
