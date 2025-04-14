@@ -18,9 +18,9 @@ export function FileUploadAnalyzer() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
-    
+
     setResult(null);
-    
+
     const isVideo = selectedFile.type.startsWith('video/');
     if (!isVideo) {
       toast({
@@ -30,7 +30,7 @@ export function FileUploadAnalyzer() {
       });
       return;
     }
-    
+
     if (selectedFile.size > 100 * 1024 * 1024) {
       toast({
         title: "File too large",
@@ -39,7 +39,7 @@ export function FileUploadAnalyzer() {
       });
       return;
     }
-    
+
     setFile(selectedFile);
     const url = URL.createObjectURL(selectedFile);
     setPreview(url);
@@ -47,24 +47,26 @@ export function FileUploadAnalyzer() {
 
   const analyzeVideo = async () => {
     if (!file) return;
-    
+
     setIsAnalyzing(true);
-    
+
     try {
       console.log('Starting analysis for file:', file.name);
       const analysisResult = await analyzeMedia(file, 'video');
-      
+
+      const isReal = analysisResult.prediction === 'REAL';
+
       setResult({
-        isReal: analysisResult.isReal,
-        details: analysisResult.details
+        isReal,
+        details: isReal ? 'Average fake score is below 0.5' : 'Average fake score is above 0.5'
       });
-      
+
       toast({
         title: "Analysis Complete",
-        description: `This video is ${analysisResult.isReal ? 'likely real' : 'likely fake'}.`,
-        variant: analysisResult.isReal ? "default" : "destructive"
+        description: `This video is ${isReal ? 'likely real' : 'likely fake'}.`,
+        variant: isReal ? "default" : "destructive"
       });
-      
+
     } catch (error) {
       console.error('Analysis failed:', error);
       toast({
@@ -83,7 +85,7 @@ export function FileUploadAnalyzer() {
         <CardTitle className="text-2xl font-bold">Video Analysis</CardTitle>
         <CardDescription>Upload MP4, AVI, or MOV files (max 100MB)</CardDescription>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50/50 transition-all hover:bg-gray-50/80 hover:border-deepfake">
           <input 
@@ -125,7 +127,7 @@ export function FileUploadAnalyzer() {
             </div>
           )}
         </div>
-        
+
         {preview && !isAnalyzing && !result && (
           <div className="text-center">
             <Button 
@@ -136,7 +138,7 @@ export function FileUploadAnalyzer() {
             </Button>
           </div>
         )}
-        
+
         {isAnalyzing && (
           <div className="text-center p-4">
             <div className="inline-flex flex-col items-center">
@@ -148,7 +150,7 @@ export function FileUploadAnalyzer() {
             </div>
           </div>
         )}
-        
+
         {result && (
           <div className={cn(
             "rounded-lg p-4 text-center border animate-zoom-in",
@@ -160,12 +162,12 @@ export function FileUploadAnalyzer() {
             )}>
               {result.isReal ? "Authentic Video" : "Potential Deepfake Detected"}
             </h3>
-            
+
             <p className="text-sm text-gray-600">{result.details}</p>
           </div>
         )}
       </CardContent>
-      
+
       <CardFooter className="bg-gray-50/50 text-xs text-gray-500 justify-center">
         All processing is done securely. Files are not stored or shared.
       </CardFooter>
