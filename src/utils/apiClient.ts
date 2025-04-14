@@ -24,7 +24,7 @@ export const analyzeMedia = async (file: File, type: 'image' | 'video') => {
 
         // Match backend logic: prediction is "REAL" or "FAKE" based on avg_fake_score > 0.5
         const prediction = result.prediction;
-        const isReal = prediction === 'REAL ';
+        const isReal = prediction === 'REAL';
 
         return {
             isReal,
