@@ -2,7 +2,7 @@ import { API_BASE_URL } from '@/config/api';
 
 export const analyzeMedia = async (file: File, type: 'image' | 'video') => {
     console.log(`Sending ${type} file to ${API_BASE_URL}/analyze for analysis`);
-    
+
     const formData = new FormData();
     formData.append('file', file, `analysis.${type === 'video' ? 'mp4' : 'jpg'}`);
     formData.append('type', type);
@@ -22,13 +22,13 @@ export const analyzeMedia = async (file: File, type: 'image' | 'video') => {
         const result = await response.json();
         console.log('Analysis result:', result);
 
-        // Assuming backend returns: { prediction: "REAL" | "FAKE" }
-        const isReal = result.prediction === 'REAL';
-        const details = `Prediction: ${result.prediction}`;
+        // Match backend logic: prediction is "REAL" or "FAKE" based on avg_fake_score > 0.5
+        const prediction = result.prediction;
+        const isReal = prediction === 'REAL';
 
         return {
             isReal,
-            details
+            details: `Prediction: ${prediction}`
         };
     } catch (error) {
         console.error('Error analyzing media:', error);
