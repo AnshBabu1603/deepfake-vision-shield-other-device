@@ -61,7 +61,7 @@ export function FileUploadAnalyzer() {
       
       toast({
         title: "Analysis Complete",
-        description: This video is ${analysisResult.isReal ? 'likely real' : 'likely fake'}.,
+        description: `This video is ${analysisResult.isReal ? 'likely real' : 'likely fake'}.`,
         variant: analysisResult.isReal ? "default" : "destructive"
       });
       
