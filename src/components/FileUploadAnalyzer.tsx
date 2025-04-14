@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from '@/hooks/use-toast';
 import { Loader2, UploadCloud, FileVideo } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { analyzeMedia } from '@/utils/apiClient';
 
 export function FileUploadAnalyzer() {
   const [file, setFile] = useState<File | null>(null);
@@ -56,18 +56,25 @@ export function FileUploadAnalyzer() {
     
     try {
       // Simulate API call with a delay
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // await new Promise(resolve => setTimeout(resolve, 3000));
       
       // Simulate results (in a real app, this would come from your API)
-      const fakeResult = {
-        isReal: Math.random() > 0.5,
-        confidence: 70 + Math.random() * 25,
-        details: "Analysis complete. Video processed for deepfake detection."
-      };
+      // const fakeResult = {
+      //   isReal: Math.random() > 0.5,
+      //   confidence: 70 + Math.random() * 25,
+      //   details: "Analysis complete. Video processed for deepfake detection."
+      // };
       
-      setResult(fakeResult);
+      // setResult(fakeResult);
       
       // Show notification
+      // toast({
+      //   title: "Analysis Complete",
+      //   description: `This video is ${fakeResult.isReal ? 'likely real' : 'likely fake'} with ${fakeResult.confidence.toFixed(1)}% confidence.`,
+      //   variant: fakeResult.isReal ? "default" : "destructive"
+      // });
+      const fakeResult = await analyzeMedia(file, 'video');
+      setResult(fakeResult);
       toast({
         title: "Analysis Complete",
         description: `This video is ${fakeResult.isReal ? 'likely real' : 'likely fake'} with ${fakeResult.confidence.toFixed(1)}% confidence.`,
