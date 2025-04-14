@@ -12,7 +12,6 @@ export function FileUploadAnalyzer() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<{
     isReal: boolean;
-    confidence: number;
     details?: string;
   } | null>(null);
 
@@ -55,11 +54,14 @@ export function FileUploadAnalyzer() {
       console.log('Starting analysis for file:', file.name);
       const analysisResult = await analyzeMedia(file, 'video');
       
-      setResult(analysisResult);
+      setResult({
+        isReal: analysisResult.isReal,
+        details: analysisResult.details
+      });
       
       toast({
         title: "Analysis Complete",
-        description: `This video is ${analysisResult.isReal ? 'likely real' : 'likely fake'} with ${analysisResult.confidence.toFixed(1)}% confidence.`,
+        description: `This video is ${analysisResult.isReal ? 'likely real' : 'likely fake'}.`,
         variant: analysisResult.isReal ? "default" : "destructive"
       });
       
@@ -158,20 +160,6 @@ export function FileUploadAnalyzer() {
             )}>
               {result.isReal ? "Authentic Video" : "Potential Deepfake Detected"}
             </h3>
-            
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="text-sm font-medium">Confidence:</span>
-              <div className="w-40 bg-gray-200 rounded-full h-2">
-                <div 
-                  className={cn(
-                    "h-2 rounded-full",
-                    result.isReal ? "bg-green-500" : "bg-red-500"
-                  )}
-                  style={{ width: `${result.confidence}%` }}
-                ></div>
-              </div>
-              <span className="text-sm font-medium">{result.confidence.toFixed(1)}%</span>
-            </div>
             
             <p className="text-sm text-gray-600">{result.details}</p>
           </div>

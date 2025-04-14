@@ -22,7 +22,10 @@ export const analyzeMedia = async (file: File, type: 'image' | 'video') => {
 
         const result = await response.json();
         console.log('Analysis result:', result);
-        return result;
+        return {
+            isReal: result.isReal,
+            details: result.details
+        };
     } catch (error) {
         console.error('Error analyzing media:', error);
         throw error;
