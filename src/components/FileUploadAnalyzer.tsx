@@ -20,10 +20,8 @@ export function FileUploadAnalyzer() {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
     
-    // Reset previous state
     setResult(null);
     
-    // Check if it's a video file
     const isVideo = selectedFile.type.startsWith('video/');
     if (!isVideo) {
       toast({
@@ -34,7 +32,6 @@ export function FileUploadAnalyzer() {
       return;
     }
     
-    // Check file size (max 100MB)
     if (selectedFile.size > 100 * 1024 * 1024) {
       toast({
         title: "File too large",
@@ -55,33 +52,19 @@ export function FileUploadAnalyzer() {
     setIsAnalyzing(true);
     
     try {
-      // Simulate API call with a delay
-      // await new Promise(resolve => setTimeout(resolve, 3000));
+      console.log('Starting analysis for file:', file.name);
+      const analysisResult = await analyzeMedia(file, 'video');
       
-      // Simulate results (in a real app, this would come from your API)
-      // const fakeResult = {
-      //   isReal: Math.random() > 0.5,
-      //   confidence: 70 + Math.random() * 25,
-      //   details: "Analysis complete. Video processed for deepfake detection."
-      // };
+      setResult(analysisResult);
       
-      // setResult(fakeResult);
-      
-      // Show notification
-      // toast({
-      //   title: "Analysis Complete",
-      //   description: `This video is ${fakeResult.isReal ? 'likely real' : 'likely fake'} with ${fakeResult.confidence.toFixed(1)}% confidence.`,
-      //   variant: fakeResult.isReal ? "default" : "destructive"
-      // });
-      const fakeResult = await analyzeMedia(file, 'video');
-      setResult(fakeResult);
       toast({
         title: "Analysis Complete",
-        description: `This video is ${fakeResult.isReal ? 'likely real' : 'likely fake'} with ${fakeResult.confidence.toFixed(1)}% confidence.`,
-        variant: fakeResult.isReal ? "default" : "destructive"
+        description: `This video is ${analysisResult.isReal ? 'likely real' : 'likely fake'} with ${analysisResult.confidence.toFixed(1)}% confidence.`,
+        variant: analysisResult.isReal ? "default" : "destructive"
       });
       
     } catch (error) {
+      console.error('Analysis failed:', error);
       toast({
         title: "Analysis failed",
         description: "An error occurred during analysis. Please try again.",
