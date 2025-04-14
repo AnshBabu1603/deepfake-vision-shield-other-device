@@ -1,4 +1,3 @@
-
 import { API_BASE_URL } from '@/config/api';
 
 export const analyzeMedia = async (file: File, type: 'image' | 'video') => {
@@ -22,9 +21,14 @@ export const analyzeMedia = async (file: File, type: 'image' | 'video') => {
 
         const result = await response.json();
         console.log('Analysis result:', result);
+
+        // Assuming backend returns: { prediction: "REAL" | "FAKE" }
+        const isReal = result.prediction === 'REAL';
+        const details = `Prediction: ${result.prediction}`;
+
         return {
-            isReal: result.isReal,
-            details: result.details
+            isReal,
+            details
         };
     } catch (error) {
         console.error('Error analyzing media:', error);
