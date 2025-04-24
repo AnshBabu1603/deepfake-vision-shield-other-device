@@ -82,6 +82,96 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+  .blue {
+    --background: 210 100% 97%;
+    --foreground: 210 100% 10%;
+
+    --card: 210 100% 98%;
+    --card-foreground: 210 100% 10%;
+
+    --popover: 210 100% 98%;
+    --popover-foreground: 210 100% 10%;
+
+    --primary: 210 100% 50%;
+    --primary-foreground: 210 100% 98%;
+
+    --secondary: 210 30% 90%;
+    --secondary-foreground: 210 100% 10%;
+
+    --muted: 210 30% 90%;
+    --muted-foreground: 210 25% 40%;
+
+    --accent: 210 30% 90%;
+    --accent-foreground: 210 100% 10%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 30% 90%;
+    --input: 210 30% 90%;
+    --ring: 210 100% 50%;
+  }
+
+  .green {
+    --background: 150 100% 97%;
+    --foreground: 150 100% 10%;
+
+    --card: 150 100% 98%;
+    --card-foreground: 150 100% 10%;
+
+    --popover: 150 100% 98%;
+    --popover-foreground: 150 100% 10%;
+
+    --primary: 150 100% 40%;
+    --primary-foreground: 150 100% 98%;
+
+    --secondary: 150 30% 90%;
+    --secondary-foreground: 150 100% 10%;
+
+    --muted: 150 30% 90%;
+    --muted-foreground: 150 25% 40%;
+
+    --accent: 150 30% 90%;
+    --accent-foreground: 150 100% 10%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 30% 90%;
+    --input: 150 30% 90%;
+    --ring: 150 100% 40%;
+  }
+
+  .purple {
+    --background: 270 100% 97%;
+    --foreground: 270 100% 10%;
+
+    --card: 270 100% 98%;
+    --card-foreground: 270 100% 10%;
+
+    --popover: 270 100% 98%;
+    --popover-foreground: 270 100% 10%;
+
+    --primary: 270 100% 50%;
+    --primary-foreground: 270 100% 98%;
+
+    --secondary: 270 30% 90%;
+    --secondary-foreground: 270 100% 10%;
+
+    --muted: 270 30% 90%;
+    --muted-foreground: 270 25% 40%;
+
+    --accent: 270 30% 90%;
+    --accent-foreground: 270 100% 10%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 270 30% 90%;
+    --input: 270 30% 90%;
+    --ring: 270 100% 50%;
+  }
 }
 
 @layer base {
@@ -91,9 +181,28 @@
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(135deg, #74ebd5, #acb6e5);
     position: relative;
     overflow-x: hidden;
+  }
+
+  body.light {
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
+  }
+
+  body.dark {
+    background: linear-gradient(135deg, #2c3e50, #4a69bd);
+  }
+
+  body.blue {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+  }
+
+  body.green {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+  }
+
+  body.purple {
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
   }
 
   body::before {
@@ -104,8 +213,8 @@
     right: 0;
     bottom: 0;
     background: 
-      radial-gradient(circle at 15% 50%, rgba(116, 235, 213, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 85% 30%, rgba(172, 182, 229, 0.15) 0%, transparent 50%);
+      radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
     animation: bgShift 15s ease-in-out infinite alternate;
     z-index: -1;
   }
