@@ -1,4 +1,3 @@
-
 import { useRef } from 'react';
 import { AnimatedTitle } from '@/components/AnimatedTitle';
 import { FaceAnalysisAnimation } from '@/components/FaceAnalysisAnimation';
@@ -11,8 +10,11 @@ import { Navigation } from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const Index = () => {
+  const { theme, setTheme } = useTheme();
+  
   const sectionRefs = {
     home: useRef<HTMLElement>(null),
     detect: useRef<HTMLElement>(null),
@@ -131,26 +133,24 @@ const Index = () => {
             <h2 className="section-title headline-text">Customize Theme</h2>
             
             <div className="flex flex-wrap justify-center gap-4 mt-8">
-              {['light', 'dark', 'blue', 'green', 'purple'].map((theme) => (
+              {['light', 'dark', 'blue', 'green', 'purple'].map((themeOption) => (
                 <Button 
-                  key={theme}
-                  variant="outline"
+                  key={themeOption}
+                  variant={theme === themeOption ? "default" : "outline"}
                   className={cn(
                     "px-6 py-2 rounded-full capitalize",
-                    theme === 'light' && "bg-gradient-to-r from-gray-50 to-gray-100",
-                    theme === 'dark' && "bg-gradient-to-r from-gray-800 to-gray-900 text-white",
-                    theme === 'blue' && "bg-gradient-to-r from-blue-400 to-blue-500 text-white",
-                    theme === 'green' && "bg-gradient-to-r from-green-400 to-green-500 text-white", 
-                    theme === 'purple' && "bg-gradient-to-r from-purple-400 to-purple-500 text-white",
-                    "opacity-0 animate-slide-up"
+                    themeOption === 'light' && "bg-gradient-to-r from-gray-50 to-gray-100 text-gray-800",
+                    themeOption === 'dark' && "bg-gradient-to-r from-gray-800 to-gray-900 text-white",
+                    themeOption === 'blue' && "bg-gradient-to-r from-blue-400 to-blue-500 text-white",
+                    themeOption === 'green' && "bg-gradient-to-r from-green-400 to-green-500 text-white", 
+                    themeOption === 'purple' && "bg-gradient-to-r from-purple-400 to-purple-500 text-white",
+                    "opacity-0 animate-slide-up",
+                    theme === themeOption && "ring-2 ring-offset-2 ring-primary"
                   )}
-                  style={{ animationDelay: `${['light', 'dark', 'blue', 'green', 'purple'].indexOf(theme) * 0.1}s` }}
-                  onClick={() => {
-                    // This would update the theme in a real application
-                    document.body.className = theme;
-                  }}
+                  style={{ animationDelay: `${['light', 'dark', 'blue', 'green', 'purple'].indexOf(themeOption) * 0.1}s` }}
+                  onClick={() => setTheme(themeOption as 'light' | 'dark' | 'blue' | 'green' | 'purple')}
                 >
-                  {theme}
+                  {themeOption}
                 </Button>
               ))}
             </div>
